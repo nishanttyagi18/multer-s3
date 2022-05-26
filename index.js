@@ -26,9 +26,13 @@ const upload = multer({
 
 app.post("/upload", upload.array("file"), async(req, res) => {
 //   console.log(req.files); // we can see the metadata of files uploaded
-  const file = req.files[0];
-  const result = await s3Uploadv2(file);
-  res.json({ status: "success", result });
+  try {
+    const results = await s3Uploadv2(req.files);
+    console.log(results);
+    return res.json({ status: "success", results });
+  } catch (error) {
+      console.log(error);
+  }
 });
 
 // error handling - it got triggered if any of our controller throws an error
