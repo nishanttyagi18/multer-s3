@@ -5,7 +5,7 @@ const app = express();
 
 const upload = multer({dest : "uploads/"})
 
-app.post('/upload',upload.single("file"), (req,res)=>{
+app.post('/upload',upload.array("file", 2), (req,res)=>{
     res.json({status: 'success'})
 })
 
