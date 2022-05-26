@@ -1,0 +1,6 @@
+- Go to S3 and create a bucket (change region and other things as default)
+- Go to IAM 
+- First create a policy so we are not giving many access to our application
+- Create new policy > Choose a service > S3 > In actions (getObject, putObject, deleteObject, getObjectAttribute)
+> In Resources (add arn with bucket name and *)
+- Not go to users and create one > In permissions attach existing policy created in previous step
