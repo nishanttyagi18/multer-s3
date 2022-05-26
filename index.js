@@ -1,15 +1,21 @@
 const express = require("express");
 const multer = require("multer");
+const uuid = require("uuid");
 const app = express();
 
-const upload = multer({ dest: "uploads/" });
+// custom filename
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${uuid()}-${file.originalname}`);
+    }
+})
 
-const multiUpload = upload.fields([
-  { name: "avatar", maxCount: 1 },
-  { name: "resume", maxCount: 1 },
-]);
+const upload = multer({storage})
 
-app.post("/upload", multiUpload, (req, res) => {
+app.post("/upload", upload.array("file"), (req, res) => {
   console.log(req.files); // we can see the metadata of files uploaded
   res.json({ status: "success" });
 });
